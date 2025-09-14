@@ -1,2 +1,2 @@
-# fakevoxel.github.io
+# 10tothe6.github.io
 It's website time.
