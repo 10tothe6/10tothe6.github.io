@@ -204,7 +204,14 @@
   window.addEventListener("mouseup", () => {
     if (!rect) return;
     isDrawing = false;
-    loadComments(rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
+    if (rect.width < 10) {
+      overlay.removeChild(rect);
+      rect = null;
+        loadComments(0, 9999);
+    }
+    else {
+        loadComments(rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
+    }
   });
 
   loadComments(0, 9999);
