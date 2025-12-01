@@ -129,6 +129,47 @@
     // Reference the comments collection
     const commentsContainer = document.getElementById("comments-container");
 
+    // Create comment popup (hidden by default)
+    const commentBox = document.createElement("div");
+    commentBox.style.position = "absolute";
+    commentBox.style.padding = "8px";
+    commentBox.style.background = "white";
+    commentBox.style.border = "1px solid #ccc";
+    commentBox.style.borderRadius = "6px";
+    commentBox.style.display = "none";
+    commentBox.style.zIndex = 99999;
+
+    const commentInput = document.createElement("input");
+    commentInput.type = "text";
+    commentInput.placeholder = "Write a comment...";
+    commentInput.style.width = "180px";
+
+    const saveBtn = document.createElement("button");
+    saveBtn.textContent = "Save";
+    saveBtn.style.marginLeft = "6px";
+
+    commentBox.appendChild(commentInput);
+    commentBox.appendChild(saveBtn);
+    document.body.appendChild(commentBox);
+
+    function openCommentBox(x, y) {
+    commentBox.style.left = x + "px";
+    commentBox.style.top = y + "px";
+    commentBox.style.display = "block";
+    commentInput.value = "";
+    commentInput.focus();
+}
+
+  // Handle saving the comment
+  saveBtn.addEventListener("click", () => {
+      const text = commentInput.value.trim();
+      if (text.length === 0) return;
+
+      alert("You clicked the image!");
+
+      commentBox.style.display = "none";
+  });
+
     function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
     }
@@ -172,38 +213,38 @@
 
     if (cursorStyle !== "pointer") {
         isDrawing = true;
-      startX = e.clientX;
-      startY = e.clientY;
+        startX = e.clientX;
+        startY = e.clientY;
 
-      // Remove existing rectangle if there is one
-      if (rect) {
-        overlay.innerHTML = "";
-        rect = null;
-      }
+        // Remove existing rectangle if there is one
+        if (rect) {
+          overlay.innerHTML = "";
+          rect = null;
+        }
 
-      // Create a new rectangle
-      rect = document.createElement("div");
-      rect.className = "rectangle";
-      rect.style.left = `${startX}px`;
-      rect.style.top = `${startY}px`;
-      rect.style.width = "0px";
-      rect.style.height = "0px";
-      overlay.appendChild(rect);
+        // Create a new rectangle
+        rect = document.createElement("div");
+        rect.className = "rectangle";
+        rect.style.left = `${startX}px`;
+        rect.style.top = `${startY}px`;
+        rect.style.width = "0px";
+        rect.style.height = "0px";
+        overlay.appendChild(rect);
 
-      // Create image
-      img = document.createElement("img");
-      img.style.position = "absolute";
-      img.src = "https://github.com/10tothe6/10tothe6.github.io/blob/main/img/comment_icon.png?raw=true"; // replace with your image URL
-      img.style.width = "24px"; // adjust size as needed
-      img.style.height = "24px";
+        // Create image
+        img = document.createElement("img");
+        img.style.position = "absolute";
+        img.src = "https://github.com/10tothe6/10tothe6.github.io/blob/main/img/comment_icon.png?raw=true"; // replace with your image URL
+        img.style.width = "24px"; // adjust size as needed
+        img.style.height = "24px";
 
-      // Make it clickable
-      img.style.cursor = "pointer";
-      img.addEventListener("click", () => {
-        alert("You clicked the image!");
-      });
+        // Make it clickable
+        img.style.cursor = "pointer";
+        img.addEventListener("click", () => {
+          openCommentBox(e.clientX, e.clientY);
+        });
 
-      overlay.appendChild(img);
+        overlay.appendChild(img);
     }
     
   });
