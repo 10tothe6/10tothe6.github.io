@@ -82,9 +82,24 @@
     border: 2px solid red;
     background-color: rgba(255, 0, 0, 0.2);
   }
+
+  #version {
+  position: fixed;      /* stays in the same place even when scrolling */
+  bottom: 10px;         /* distance from bottom */
+  left: 10px;           /* distance from left */
+  font-size: 14px;      /* adjust as needed */
+  color: #555;          /* subtle color */
+  background: rgba(255, 255, 255, 0.7); /* optional semi-transparent bg */
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: sans-serif;
+  z-index: 1000;        /* above other content */
+}
 </style>
 </head>
 <body>
+  <div id="version">v0.1.0</div>
+
     <div id="drawing-overlay"></div>
 
     <div class="page-container">
