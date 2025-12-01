@@ -1,33 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Duality</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Duality</title>
 
-  <style>
+<style>
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f9;
-    margin: 20px;
+    margin: 0;
+    height: 100vh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    overflow: hidden;
+    position: relative;
   }
 
   h2 {
     margin-bottom: 16px;
     color: #333;
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  #container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  #bob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
   }
 
   #imageList {
-    width: 90%;
-    max-width: 1000px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-auto-rows: 200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 15px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80%;
+    height: 80%;
+    transform: translate(-50%, -50%);
+    overflow: auto;
     padding: 10px;
+    box-sizing: border-box;
   }
 
   #imageList button {
@@ -39,6 +67,8 @@
     overflow: hidden;
     position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
+    flex: 0 0 150px; /* fixed size for wrapping */
+    height: 150px;
   }
 
   #imageList button:hover {
@@ -60,7 +90,6 @@
     opacity: 0.95;
   }
 
-  /* Optional: add a subtle overlay on hover for title display */
   #imageList button::after {
     content: attr(data-title);
     position: absolute;
@@ -82,62 +111,49 @@
   }
 
 </style>
-  <link rel="icon" href="/img/favicon.ico">
 </head>
-
-
-
 <body>
- <div id="bob">
-  <img width="400" src = "https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Example Image">
- </div>
-
- <script>
-  const bob = document.getElementById('bob');
-  let pos = 0;
-  let direction = 1; // 1 = up, -1 = down
-  const speed = 0.1; // pixels per frame
-
-  function animate() {
-    pos += direction * speed;
-    if (pos > 20) direction = -1;  // reverse down
-    if (pos < 0) direction = 1;    // reverse up
-    bob.style.transform = `translateY(${-pos}px)`;
-    requestAnimationFrame(animate);
-  }
-
-  animate();
-</script>
-
-  <a href="https://10tothe6.github.io/duality/about" style="color: blue; text-decoration: none;"> About</a>
-
   <h2>Available Articles</h2>
-  <div id="imageList">Loading…</div>
+  <div id="container">
+    <div id="bob">
+      <img width="400" src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Example Image">
+    </div>
+    <div id="imageList">Loading…</div>
+  </div>
 
-  <!-- Module script -->
+  <script>
+    const bob = document.getElementById('bob');
+    let pos = 0;
+    let direction = 1; // 1 = up, -1 = down
+    const speed = 0.1; // pixels per frame
+
+    function animate() {
+      pos += direction * speed;
+      if (pos > 20) direction = -1;
+      if (pos < 0) direction = 1;
+      bob.style.transform = `translate(-50%, calc(-50% - ${pos}px))`;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-  
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
-    authDomain: "duality-articles.firebaseapp.com",
-    projectId: "duality-articles",
-    storageBucket: "duality-articles.firebasestorage.app",
-    messagingSenderId: "497426954182",
-    appId: "1:497426954182:web:8081f58e64d32048c3a4c7",
-    measurementId: "G-TJ5TXZEQH5"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
+      authDomain: "duality-articles.firebaseapp.com",
+      projectId: "duality-articles",
+      storageBucket: "duality-articles.firebasestorage.app",
+      messagingSenderId: "497426954182",
+      appId: "1:497426954182:web:8081f58e64d32048c3a4c7",
+      measurementId: "G-TJ5TXZEQH5"
+    };
 
-    // Init Firebase + Firestore
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-
     const imageListDiv = document.getElementById("imageList");
 
     async function loadImages() {
@@ -146,22 +162,17 @@
         imageListDiv.innerHTML = "";
 
         snapshot.forEach(doc => {
-        const data = doc.data();
-
-        const button = document.createElement("button");
-        button.setAttribute("data-title", data.title); // For overlay on hover
-
-        const img = document.createElement("img");
-        img.src = data.url;
-
-        button.appendChild(img);
-
-        button.addEventListener("click", () => {
-          window.location.href = "https://10tothe6.github.io/duality/articles/" + data.domain;
+          const data = doc.data();
+          const button = document.createElement("button");
+          button.setAttribute("data-title", data.title);
+          const img = document.createElement("img");
+          img.src = data.url;
+          button.appendChild(img);
+          button.addEventListener("click", () => {
+            window.location.href = "https://10tothe6.github.io/duality/articles/" + data.domain;
+          });
+          imageListDiv.appendChild(button);
         });
-
-        imageListDiv.appendChild(button);
-      });
       } catch (err) {
         imageListDiv.innerHTML = "Error loading images.";
         console.error(err);
