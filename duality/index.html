@@ -21,33 +21,13 @@
   }
 
   #imageList {
-    width: 320px;
-    max-height: 500px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    width: 90%;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: 200px;
     gap: 15px;
     padding: 10px;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    scrollbar-width: thin;
-    scrollbar-color: #888 #eee;
-  }
-
-  /* Custom scrollbar for Webkit browsers */
-  #imageList::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  #imageList::-webkit-scrollbar-track {
-    background: #eee;
-    border-radius: 8px;
-  }
-
-  #imageList::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 8px;
   }
 
   #imageList button {
@@ -55,27 +35,50 @@
     border: none;
     background: none;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
+    position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
   }
 
   #imageList button:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    z-index: 2;
   }
 
   #imageList img {
     width: 100%;
-    height: 200px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 10px;
+    border-radius: 12px;
     display: block;
     transition: opacity 0.2s;
   }
 
   #imageList img:hover {
     opacity: 0.95;
+  }
+
+  /* Optional: add a subtle overlay on hover for title display */
+  #imageList button::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 6px 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  #imageList button:hover::after {
+    opacity: 1;
   }
 </style>
   <link rel="icon" href="/img/favicon.ico">
@@ -121,22 +124,22 @@
         imageListDiv.innerHTML = "";
 
         snapshot.forEach(doc => {
-          const data = doc.data();
-          
-          const button = document.createElement("button");
+        const data = doc.data();
 
-          const img = document.createElement("img");
-          img.src = data.url;
-        //   img.alt = doc.id;
+        const button = document.createElement("button");
+        button.setAttribute("data-title", data.title); // For overlay on hover
 
-          button.appendChild(img);
+        const img = document.createElement("img");
+        img.src = data.url;
 
-          button.addEventListener("click", () => {
-            window.location.href = "https://10tothe6.github.io/duality/articles/" + data.title;
-          });
+        button.appendChild(img);
 
-          imageListDiv.appendChild(button);
+        button.addEventListener("click", () => {
+          window.location.href = "https://10tothe6.github.io/duality/articles/" + data.title;
         });
+
+        imageListDiv.appendChild(button);
+      });
       } catch (err) {
         imageListDiv.innerHTML = "Error loading images.";
         console.error(err);
