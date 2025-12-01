@@ -180,6 +180,8 @@
     commentInput.focus();
 }
 
+let docID = 1;
+
     function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
     }
@@ -192,7 +194,7 @@
         querySnapshot.forEach((doc) => {
             const data = doc.data();
         const val = clamp((data.upper + data.lower)/2, max, min);
-          if (val > data.upper && val < data.lower) {
+          if (val > data.upper && val < data.lower && data.docID == docID) {
             
             const commentDiv = document.createElement("div");
             commentDiv.classList.add("comment");
