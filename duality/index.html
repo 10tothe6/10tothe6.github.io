@@ -127,7 +127,7 @@
         const data = doc.data();
 
         const button = document.createElement("button");
-        button.setAttribute("data-title", data.domain); // For overlay on hover
+        button.setAttribute("data-title", data.title); // For overlay on hover
 
         const img = document.createElement("img");
         img.src = data.url;
@@ -135,7 +135,7 @@
         button.appendChild(img);
 
         button.addEventListener("click", () => {
-          window.location.href = "https://10tothe6.github.io/duality/articles/" + data.title;
+          window.location.href = "https://10tothe6.github.io/duality/articles/" + data.domain;
         });
 
         imageListDiv.appendChild(button);
