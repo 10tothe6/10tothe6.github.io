@@ -210,7 +210,7 @@
     rect.style.top = `${Math.min(currentY, startY)}px`;
 
     // Position the image at top-right of the rectangle
-    img.style.left = rect.style.left + rect.style.width;
+    img.style.left = rect.style.left - rect.style.width;
     img.style.top = rect.style.top;
   });
 
