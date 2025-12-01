@@ -192,6 +192,13 @@
     img.src = "https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true"; // replace with your image URL
     img.style.width = "24px"; // adjust size as needed
     img.style.height = "24px";
+
+    // Make it clickable
+    img.style.cursor = "pointer";
+    img.addEventListener("click", () => {
+      alert("You clicked the image!");
+    });
+
     overlay.appendChild(img);
   });
 
