@@ -83,48 +83,6 @@
 <body>
     <div id="drawing-overlay"></div>
 
-    <script>
-  const overlay = document.getElementById("drawing-overlay");
-  let startX, startY;
-  let rect = null;
-  let isDrawing = false;
-
-  // Allow drawing only when mouse is down
-  window.addEventListener("mousedown", (e) => {
-    isDrawing = true;
-    startX = e.clientX;
-    startY = e.clientY;
-
-    rect = document.createElement("div");
-    rect.className = "rectangle";
-    rect.style.left = `${startX}px`;
-    rect.style.top = `${startY}px`;
-    rect.style.width = "0px";
-    rect.style.height = "0px";
-    overlay.appendChild(rect);
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    if (!isDrawing) return;
-
-    const currentX = e.clientX;
-    const currentY = e.clientY;
-
-    const width = Math.abs(currentX - startX);
-    const height = Math.abs(currentY - startY);
-    rect.style.width = `${width}px`;
-    rect.style.height = `${height}px`;
-
-    rect.style.left = `${Math.min(currentX, startX)}px`;
-    rect.style.top = `${Math.min(currentY, startY)}px`;
-  });
-
-  window.addEventListener("mouseup", () => {
-    isDrawing = false;
-    loadComments(rect.top + window.scrollY, rect.top + rect.height + window.scrollY);
-  });
-</script>
-
     <div class="page-container">
         <div class="article-container">
         <div class="article-header">
@@ -196,6 +154,55 @@
       }
     }
   </script>
+
+  <script>
+  const overlay = document.getElementById("drawing-overlay");
+  let startX, startY;
+  let rect = null;
+  let isDrawing = false;
+
+  window.addEventListener("mousedown", (e) => {
+    isDrawing = true;
+    startX = e.clientX;
+    startY = e.clientY;
+
+    // Remove existing rectangle if there is one
+    if (rect) {
+      overlay.removeChild(rect);
+      rect = null;
+    }
+
+    // Create a new rectangle
+    rect = document.createElement("div");
+    rect.className = "rectangle";
+    rect.style.left = `${startX}px`;
+    rect.style.top = `${startY}px`;
+    rect.style.width = "0px";
+    rect.style.height = "0px";
+    overlay.appendChild(rect);
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!isDrawing || !rect) return;
+
+    const currentX = e.clientX;
+    const currentY = e.clientY;
+
+    const width = Math.abs(currentX - startX);
+    const height = Math.abs(currentY - startY);
+    rect.style.width = `${width}px`;
+    rect.style.height = `${height}px`;
+
+    rect.style.left = `${Math.min(currentX, startX)}px`;
+    rect.style.top = `${Math.min(currentY, startY)}px`;
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (!rect) return;
+    isDrawing = false;
+    loadComments(rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
+  });
+</script>
 
 </body>
 </html
