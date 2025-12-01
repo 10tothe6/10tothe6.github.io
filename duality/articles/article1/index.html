@@ -153,10 +153,8 @@
         commentsContainer.innerHTML = "<p>Failed to load comments.</p>";
       }
     }
-  </script>
 
-  <script>
-  const overlay = document.getElementById("drawing-overlay");
+    const overlay = document.getElementById("drawing-overlay");
   let startX, startY;
   let rect = null;
   let isDrawing = false;
@@ -202,7 +200,7 @@
     isDrawing = false;
     loadComments(rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
   });
-</script>
+  </script>
 
 </body>
 </html
