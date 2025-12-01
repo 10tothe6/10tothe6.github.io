@@ -128,6 +128,7 @@
 
     // Reference the comments collection
     const commentsContainer = document.getElementById("comments-container");
+    commentsContainer.innerHTML = "";
 
     async function loadComments(max, min) {
       try {
@@ -200,6 +201,8 @@
     isDrawing = false;
     loadComments(rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
   });
+
+  loadComments(0, 9999);
   </script>
 
 </body>
