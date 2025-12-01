@@ -191,7 +191,6 @@
     img.src = "https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true"; // replace with your image URL
     img.style.width = "24px"; // adjust size as needed
     img.style.height = "24px";
-    img.position = "absolute";
     overlay.appendChild(img);
   });
 
@@ -210,8 +209,8 @@
     rect.style.top = `${Math.min(currentY, startY)}px`;
 
     // Position the image at top-right of the rectangle
-    img.style.left = rect.style.left + width;
-    img.style.top = rect.style.top;
+    img.style.left = `${Math.min(currentX, startX)}px`;
+    img.style.top = `${Math.min(currentY, startY)}px`;
   });
 
   window.addEventListener("mouseup", () => {
