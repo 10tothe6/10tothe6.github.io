@@ -32,6 +32,9 @@
   /* Article styling */
   .article-container {
     flex: 2; /* takes more space */
+    max-width: 700px;   /* make the article narrower */
+    margin: 0 auto;     /* center it horizontally */
+    padding: 20px;      /* optional: add spacing */
   }
 
   .article-header img {
@@ -165,7 +168,7 @@
       const text = commentInput.value.trim();
       if (text.length === 0) return;
 
-      alert("You clicked the image!");
+      addComment("TEST AUTHOR", text)
 
       commentBox.style.display = "none";
   });
@@ -200,6 +203,19 @@
         commentsContainer.innerHTML = "<p>Failed to load comments.</p>";
       }
     }
+
+    async function addComment(author, text) {
+  try {
+    const docRef = await addDoc(collection(db, "comments"), {
+      author: author || "Anonymous",
+      text: text || "",
+      createdAt: serverTimestamp() // optional: timestamp for ordering
+    });
+    console.log("Comment added with ID:", docRef.id);
+  } catch (error) {
+    console.error("Error adding comment:", error);
+  }
+}
 
     const overlay = document.getElementById("drawing-overlay");
   let startX, startY;
