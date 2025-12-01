@@ -12,6 +12,9 @@
             background-color: #f9f9f9;
             color: #333;
         }
+        #comments-container {
+        width: 300px; /* Optional: restrict the width */
+            }
 
         .article-container {
             max-width: 800px;
@@ -41,6 +44,21 @@
             margin-bottom: 1em;
         }
 
+        .comment {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: right; /* Align text inside the comment */
+        background-color: #f5f5f5;
+        }
+        .comment-author {
+        font-weight: bold;
+        }
+        .comment-text {
+        margin-top: 0.5rem;
+        }
+
         @media (max-width: 600px) {
             .article-content {
                 padding: 15px 20px;
@@ -56,7 +74,7 @@
 
     <div class="article-container">
         <div class="article-header">
-            <img src="https://via.placeholder.com/800x400" alt="Article Header Image">
+            <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Article Header Image">
         </div>
         <div class="article-content">
             <h1>Sample Article Title</h1>
@@ -65,6 +83,60 @@
             <p>Phasellus consectetur eros a neque pretium, sed gravida tortor pulvinar. Integer convallis purus nec magna fermentum, a bibendum libero cursus.</p>
         </div>
     </div>
+
+    <h1>Comments</h1>
+  <div id="comments-container"></div>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
+    authDomain: "duality-articles.firebaseapp.com",
+    projectId: "duality-articles",
+    storageBucket: "duality-articles.firebasestorage.app",
+    messagingSenderId: "497426954182",
+    appId: "1:497426954182:web:8081f58e64d32048c3a4c7",
+    measurementId: "G-TJ5TXZEQH5"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+    // Reference the comments collection
+    const commentsContainer = document.getElementById("comments-container");
+
+    async function loadComments() {
+      try {
+        const querySnapshot = await getDocs(collection(db, "comments"));
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const commentDiv = document.createElement("div");
+          commentDiv.classList.add("comment");
+
+          commentDiv.innerHTML = `
+            <div class="comment-author">${data.author || "Anonymous"}</div>
+            <div class="comment-text">${data.text || ""}</div>
+          `;
+
+          commentsContainer.appendChild(commentDiv);
+        });
+      } catch (error) {
+        console.error("Error loading comments:", error);
+        commentsContainer.innerHTML = "<p>Failed to load comments.</p>";
+      }
+    }
+
+    loadComments();
+  </script>
 
 </body>
 </html
