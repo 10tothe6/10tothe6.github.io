@@ -13,6 +13,16 @@
 </head>
 <body>
 
+<h1>Comments</h1>
+
+<div>
+  <input type="text" id="user" placeholder="Your Name" />
+  <textarea id="content" placeholder="Your Comment"></textarea>
+  <button id="postBtn">Post Comment</button>
+</div>
+
+<div id="comments"></div>
+
 <script type="module">
   // Import the functions you need from the SDKs you need
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -78,19 +88,11 @@
     });
   }
 
+  document.getElementById('postBtn').addEventListener('click', addComment);
+
   // Load comments on page load
   loadComments();
 </script>
-
-<h1>Comments</h1>
-
-<div>
-  <input type="text" id="user" placeholder="Your Name" />
-  <textarea id="content" placeholder="Your Comment"></textarea>
-  <button onclick="addComment()">Post Comment</button>
-</div>
-
-<div id="comments"></div>
 
 </body>
 </html>
