@@ -5,25 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Article Page</title>
     <style>
-        
-    </style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+  }
+
+  /* Container to hold article and comments side by side */
+  .page-container {
+    display: flex;
+    gap: 40px; /* space between article and comments */
+    align-items: flex-start; /* align tops */
+  }
+
+  /* Article styling */
+  .article-container {
+    flex: 2; /* takes more space */
+  }
+
+  .article-header img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Comments container styling */
+  #comments-container {
+    flex: 1; /* smaller width */
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px; /* optional max width */
+  }
+
+  .comment {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .comment-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .comment-text {
+    font-size: 14px;
+  }
+</style>
 </head>
 <body>
 
-    <div class="article-container">
+    <div class="page-container">
+        <div class="article-container">
         <div class="article-header">
             <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Article Header Image">
         </div>
-        <div class="article-content">
-            <h1>Sample Article Title</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus sit amet nulla tincidunt imperdiet. Quisque facilisis justo vel velit congue, vel posuere sapien tempus.</p>
-            <p>Morbi in ligula ac justo blandit bibendum. Nulla facilisi. Suspendisse potenti. Aenean sit amet purus vitae purus mattis suscipit. Curabitur scelerisque sapien at arcu scelerisque, a lacinia ligula fermentum.</p>
-            <p>Phasellus consectetur eros a neque pretium, sed gravida tortor pulvinar. Integer convallis purus nec magna fermentum, a bibendum libero cursus.</p>
+            <div class="article-content">
+                <h1>Sample Article Title</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus sit amet nulla tincidunt imperdiet. Quisque facilisis justo vel velit congue, vel posuere sapien tempus.</p>
+                <p>Morbi in ligula ac justo blandit bibendum. Nulla facilisi. Suspendisse potenti. Aenean sit amet purus vitae purus mattis suscipit. Curabitur scelerisque sapien at arcu scelerisque, a lacinia ligula fermentum.</p>
+                <p>Phasellus consectetur eros a neque pretium, sed gravida tortor pulvinar. Integer convallis purus nec magna fermentum, a bibendum libero cursus.</p>
+            </div>
+        </div>
+
+        <div>
+            <h1>Comments</h1>
+            <div id="comments-container"></div>
         </div>
     </div>
-
-    <h1>Comments</h1>
-  <div id="comments-container"></div>
 
   <!-- Firebase SDKs -->
   <script type="module">
