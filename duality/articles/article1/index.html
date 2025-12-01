@@ -218,7 +218,7 @@
     if (!rect) return;
     isDrawing = false;
 
-    if (rect.width < 100) {
+    if (rect.offsetHeight < 10) {
       overlay.innerHTML = "";
       rect = null;
         loadComments(0, 9999);
