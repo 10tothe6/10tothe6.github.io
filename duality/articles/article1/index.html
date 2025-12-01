@@ -187,7 +187,7 @@
 
     // Create image
     img = document.createElement("img");
-    img.src = "icon.png"; // replace with your image URL
+    img.src = "https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true"; // replace with your image URL
     img.style.position = "absolute";
     img.style.width = "24px"; // adjust size as needed
     img.style.height = "24px";
@@ -216,7 +216,8 @@
   window.addEventListener("mouseup", () => {
     if (!rect) return;
     isDrawing = false;
-    if (rect.width < 10) {
+
+    if (rect.width < 100) {
       overlay.innerHTML = "";
       rect = null;
         loadComments(0, 9999);
