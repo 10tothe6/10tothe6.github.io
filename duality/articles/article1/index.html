@@ -151,6 +151,7 @@
     const saveBtn = document.createElement("button");
     saveBtn.textContent = "Save";
     saveBtn.style.marginLeft = "6px";
+    saveBtn.style.cursor = "pointer";
 
     commentBox.appendChild(commentInput);
     commentBox.appendChild(saveBtn);
@@ -227,8 +228,13 @@
   });
 
   window.addEventListener("mousedown", (e) => {
+
     const el = document.elementFromPoint(event.clientX, event.clientY);
     const cursorStyle = window.getComputedStyle(el).cursor;
+
+    if (cursorStyle === "default") {
+      commentBox.style.display = "none";
+    }
 
     if (cursorStyle !== "pointer") {
         isDrawing = true;
