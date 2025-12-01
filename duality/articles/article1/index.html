@@ -1,20 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Firebase Comments Example</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
-    #comments { margin-top: 20px; }
-    .comment { padding: 10px; border-bottom: 1px solid #ddd; }
-    input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
-    button { padding: 8px 16px; }
-  </style>
-  <link rel="icon" href="/img/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .article-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .article-header img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .article-content {
+            padding: 20px 30px;
+        }
+
+        .article-content h1 {
+            margin-top: 0;
+            font-size: 2em;
+        }
+
+        .article-content p {
+            line-height: 1.6;
+            margin-bottom: 1em;
+        }
+
+        @media (max-width: 600px) {
+            .article-content {
+                padding: 15px 20px;
+            }
+
+            .article-content h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Example Image">
+    <div class="article-container">
+        <div class="article-header">
+            <img src="https://via.placeholder.com/800x400" alt="Article Header Image">
+        </div>
+        <div class="article-content">
+            <h1>Sample Article Title</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut purus sit amet nulla tincidunt imperdiet. Quisque facilisis justo vel velit congue, vel posuere sapien tempus.</p>
+            <p>Morbi in ligula ac justo blandit bibendum. Nulla facilisi. Suspendisse potenti. Aenean sit amet purus vitae purus mattis suscipit. Curabitur scelerisque sapien at arcu scelerisque, a lacinia ligula fermentum.</p>
+            <p>Phasellus consectetur eros a neque pretium, sed gravida tortor pulvinar. Integer convallis purus nec magna fermentum, a bibendum libero cursus.</p>
+        </div>
+    </div>
 
 </body>
 </html>
