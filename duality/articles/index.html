@@ -3,91 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Firestore Image List</title>
+  <title>Uh Oh</title>
 
   <style>
-    #imageList {
-      width: 300px;
-      height: 500px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    #imageList img {
-      width: 100%;
-      border-radius: 6px;
-      object-fit: cover;
-    }
   </style>
   <link rel="icon" href="/img/favicon.ico">
 </head>
 
 
 <body>
-
-
-  <h2>Image List</h2>
-  <div id="imageList">Loading…</div>
-
-  <!-- Module script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
-  
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
-    authDomain: "duality-articles.firebaseapp.com",
-    projectId: "duality-articles",
-    storageBucket: "duality-articles.firebasestorage.app",
-    messagingSenderId: "497426954182",
-    appId: "1:497426954182:web:8081f58e64d32048c3a4c7",
-    measurementId: "G-TJ5TXZEQH5"
-  };
-
-    // Init Firebase + Firestore
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const imageListDiv = document.getElementById("imageList");
-
-    async function loadImages() {
-      try {
-        const snapshot = await getDocs(collection(db, "thumbnails"));
-        imageListDiv.innerHTML = "";
-
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          
-          const button = document.createElement("button");
-
-          const img = document.createElement("img");
-          img.src = data.url;
-        //   img.alt = doc.id;
-
-          button.appendChild(img);
-
-          button.addEventListener("click", () => {
-            window.location.href = "https://10tothe6.github.io/duality/articles/" + data.title;
-          });
-
-          imageListDiv.appendChild(button);
-        });
-      } catch (err) {
-        imageListDiv.innerHTML = "Error loading images.";
-        console.error(err);
-      }
-    }
-
-    loadImages();
-  </script>
+  <h1>This Page Doesn't Exist</h1>
 </body>
 </html>
