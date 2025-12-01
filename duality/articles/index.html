@@ -65,20 +65,19 @@
         imageListDiv.innerHTML = "";
 
         snapshot.forEach(doc => {
-          const data = doc.data().url;
-          if (!data.url) return;
-
+          const data = doc.data();
+          
           const button = document.createElement("button");
 
           const img = document.createElement("img");
-          img.src = data.url;
-          img.alt = doc.id;
+          img.src = data.url.url;
+        //   img.alt = doc.id;
 
           button.appendChild(img);
 
           // Example click event: alert the URL
           button.addEventListener("click", () => {
-            alert(`You clicked: ${data.url}`);
+            alert(`You clicked: ${data.url.url}`);
           });
 
           imageListDiv.appendChild(button);
