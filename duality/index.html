@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Comments Example</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
+    #comments { margin-top: 20px; }
+    .comment { padding: 10px; border-bottom: 1px solid #ddd; }
+    input, textarea { width: 100%; margin-bottom: 10px; padding: 8px; }
+    button { padding: 8px 16px; }
+  </style>
+</head>
+<body>
+
+<h1>Comments</h1>
+
+<div>
+  <input type="text" id="user" placeholder="Your Name" />
+  <textarea id="content" placeholder="Your Comment"></textarea>
+  <button onclick="addComment()">Post Comment</button>
+</div>
+
+<div id="comments"></div>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
+    authDomain: "duality-articles.firebaseapp.com",
+    projectId: "duality-articles",
+    storageBucket: "duality-articles.firebasestorage.app",
+    messagingSenderId: "497426954182",
+    appId: "1:497426954182:web:8081f58e64d32048c3a4c7",
+    measurementId: "G-TJ5TXZEQH5"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+
+  const commentsCol = collection(db, "comments");
+
+  async function addComment() {
+    const user = document.getElementById('user').value.trim();
+    const content = document.getElementById('content').value.trim();
+    if (!user || !content) return alert("Please enter your name and comment.");
+
+    try {
+      await addDoc(commentsCol, {
+        user_name: user,
+        content: content,
+        timestamp: new Date()
+      });
+      document.getElementById('content').value = "";
+      loadComments(); // Refresh comments
+    } catch (e) {
+      console.error("Error adding comment: ", e);
+    }
+  }
+
+  async function loadComments() {
+    const commentsDiv = document.getElementById('comments');
+    commentsDiv.innerHTML = "";
+
+    const q = query(commentsCol, orderBy("timestamp", "desc"));
+    const snapshot = await getDocs(q);
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const div = document.createElement('div');
+      div.className = "comment";
+      div.textContent = `${data.user_name}: ${data.content}`;
+      commentsDiv.appendChild(div);
+    });
+  }
+
+  // Load comments on page load
+  loadComments();
+</script>
+
+
+</body>
+</html>
