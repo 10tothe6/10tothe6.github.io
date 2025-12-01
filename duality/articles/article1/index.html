@@ -210,8 +210,8 @@
     rect.style.top = `${Math.min(currentY, startY)}px`;
 
     // Position the image at top-right of the rectangle
-    img.style.left = `${left + width - img.offsetWidth}px`;
-    img.style.top = `${top}px`;
+    img.style.left = rect.style.left + rect.style.width - img.style.width;
+    img.style.top = rect.style.top;
   });
 
   window.addEventListener("mouseup", () => {
