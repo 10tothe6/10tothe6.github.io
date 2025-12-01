@@ -163,16 +163,6 @@
     commentInput.focus();
 }
 
-  // Handle saving the comment
-  saveBtn.addEventListener("click", () => {
-      const text = commentInput.value.trim();
-      if (text.length === 0) return;
-
-      addComment("TEST AUTHOR", text)
-
-      commentBox.style.display = "none";
-  });
-
     function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
     }
@@ -204,11 +194,13 @@
       }
     }
 
-    async function addComment(author, text) {
+    async function addComment(author, text, upper, lower) {
   try {
     const docRef = await addDoc(collection(db, "comments"), {
       author: author || "Anonymous",
       text: text || "",
+      upper: upper || 0,
+      lower: lower || 100,
       createdAt: serverTimestamp() // optional: timestamp for ordering
     });
     console.log("Comment added with ID:", docRef.id);
@@ -222,6 +214,16 @@
   let rect = null;
   let img = null;
   let isDrawing = false;
+
+  // Handle saving the comment
+  saveBtn.addEventListener("click", () => {
+      const text = commentInput.value.trim();
+      if (text.length === 0) return;
+
+      addComment("TEST AUTHOR", text, rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY)
+
+      commentBox.style.display = "none";
+  });
 
   window.addEventListener("mousedown", (e) => {
     const el = document.elementFromPoint(event.clientX, event.clientY);
