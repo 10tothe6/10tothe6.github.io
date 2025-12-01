@@ -121,6 +121,7 @@
 
   window.addEventListener("mouseup", () => {
     isDrawing = false;
+    loadComments(rect.top + window.scrollY, rect.top + rect.height + window.scrollY);
   });
 </script>
 
@@ -170,28 +171,30 @@
     // Reference the comments collection
     const commentsContainer = document.getElementById("comments-container");
 
-    async function loadComments() {
+    async function loadComments(max, min) {
       try {
         const querySnapshot = await getDocs(collection(db, "comments"));
         querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const commentDiv = document.createElement("div");
-          commentDiv.classList.add("comment");
+            const data = doc.data();
 
-          commentDiv.innerHTML = `
-            <div class="comment-author">${data.author || "Anonymous"}</div>
-            <div class="comment-text">${data.text || ""}</div>
-          `;
+          if (max < data.upper && min > data.lower) {
+            
+            const commentDiv = document.createElement("div");
+            commentDiv.classList.add("comment");
 
-          commentsContainer.appendChild(commentDiv);
+            commentDiv.innerHTML = `
+                <div class="comment-author">${data.author || "Anonymous"}</div>
+                <div class="comment-text">${data.text || ""}</div>
+            `;
+
+            commentsContainer.appendChild(commentDiv);
+          }
         });
       } catch (error) {
         console.error("Error loading comments:", error);
         commentsContainer.innerHTML = "<p>Failed to load comments.</p>";
       }
     }
-
-    loadComments();
   </script>
 
 </body>
