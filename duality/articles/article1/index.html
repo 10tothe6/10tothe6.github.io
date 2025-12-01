@@ -25,7 +25,7 @@
   /* Container to hold article and comments side by side */
   .page-container {
     display: flex;
-    gap: 10px; /* space between article and comments */
+    gap: 30px; /* space between article and comments */
     align-items: flex-start; /* align tops */
   }
 
@@ -44,14 +44,16 @@
 
   /* Comments container styling */
   #comments-container {
-    flex-grow: 1; /* smaller width */
+    width: 200px;
+    flex-grow: 2; /* smaller width */
     background-color: #f7f7f7;
     padding: 20px;
     border-radius: 10px;
-    max-width: 5000px; /* optional max width */
+    /*max-width: 5000px; /* optional max width */
   }
 
   .comment {
+    width: 200px;
     margin-bottom: 15px;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
