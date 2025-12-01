@@ -6,23 +6,78 @@
   <title>Duality</title>
 
   <style>
-    #imageList {
-      width: 300px;
-      height: 500px;
-      overflow-y: auto;
-      border: 1px solid #ccc;
-      padding: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    #imageList img {
-      width: 100%;
-      border-radius: 6px;
-      object-fit: cover;
-    }
-  </style>
+  h2 {
+    margin-bottom: 16px;
+    color: #333;
+  }
+
+  #imageList {
+    width: 320px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    scrollbar-width: thin;
+    scrollbar-color: #888 #eee;
+  }
+
+  /* Custom scrollbar for Webkit browsers */
+  #imageList::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #imageList::-webkit-scrollbar-track {
+    background: #eee;
+    border-radius: 8px;
+  }
+
+  #imageList::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 8px;
+  }
+
+  #imageList button {
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  #imageList button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  #imageList img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    transition: opacity 0.2s;
+  }
+
+  #imageList img:hover {
+    opacity: 0.95;
+  }
+</style>
   <link rel="icon" href="/img/favicon.ico">
 </head>
 
