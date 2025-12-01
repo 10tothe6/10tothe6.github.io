@@ -61,11 +61,11 @@
 
     async function loadImages() {
       try {
-        const snapshot = await getDocs(collection(db, "images"));
+        const snapshot = await getDocs(collection(db, "thumbnails"));
         imageListDiv.innerHTML = "";
 
         snapshot.forEach(doc => {
-          const data = doc.data();
+          const data = doc.data()["url"];
           if (!data.url) return;
 
           const button = document.createElement("button");
