@@ -58,22 +58,30 @@
     const db = getFirestore(app);
 
     const imageListDiv = document.getElementById("imageList");
-    
+
     async function loadImages() {
       try {
-        const snapshot = await getDocs(collection(db, "thumbnails"));
-
-        imageListDiv.innerHTML = ""; // clear loading text
+        const snapshot = await getDocs(collection(db, "images"));
+        imageListDiv.innerHTML = "";
 
         snapshot.forEach(doc => {
           const data = doc.data();
           if (!data.url) return;
 
+          const button = document.createElement("button");
+
           const img = document.createElement("img");
           img.src = data.url;
           img.alt = doc.id;
 
-          imageListDiv.appendChild(img);
+          button.appendChild(img);
+
+          // Example click event: alert the URL
+          button.addEventListener("click", () => {
+            alert(`You clicked: ${data.url}`);
+          });
+
+          imageListDiv.appendChild(button);
         });
       } catch (err) {
         imageListDiv.innerHTML = "Error loading images.";
