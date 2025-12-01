@@ -65,7 +65,7 @@
         imageListDiv.innerHTML = "";
 
         snapshot.forEach(doc => {
-          const data = doc.data()["url"];
+          const data = doc.data()[url];
           if (!data.url) return;
 
           const button = document.createElement("button");
