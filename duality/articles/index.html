@@ -70,14 +70,13 @@
           const button = document.createElement("button");
 
           const img = document.createElement("img");
-          img.src = data.url.url;
+          img.src = data.url;
         //   img.alt = doc.id;
 
           button.appendChild(img);
 
-          // Example click event: alert the URL
           button.addEventListener("click", () => {
-            alert(`You clicked: ${data.url.url}`);
+            alert(`You clicked: ${data.url}`);
           });
 
           imageListDiv.appendChild(button);
