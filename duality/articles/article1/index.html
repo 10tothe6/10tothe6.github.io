@@ -172,7 +172,7 @@
 
     // Remove existing rectangle if there is one
     if (rect) {
-      overlay.removeChild(rect);
+      overlay.innerHTML = "";
       rect = null;
     }
 
@@ -184,6 +184,14 @@
     rect.style.width = "0px";
     rect.style.height = "0px";
     overlay.appendChild(rect);
+
+    // Create image
+    img = document.createElement("img");
+    img.src = "icon.png"; // replace with your image URL
+    img.style.position = "absolute";
+    img.style.width = "24px"; // adjust size as needed
+    img.style.height = "24px";
+    overlay.appendChild(img);
   });
 
   window.addEventListener("mousemove", (e) => {
@@ -199,13 +207,17 @@
 
     rect.style.left = `${Math.min(currentX, startX)}px`;
     rect.style.top = `${Math.min(currentY, startY)}px`;
+
+    // Position the image at top-right of the rectangle
+    img.style.left = `${left + width - img.offsetWidth}px`;
+    img.style.top = `${top}px`;
   });
 
   window.addEventListener("mouseup", () => {
     if (!rect) return;
     isDrawing = false;
     if (rect.width < 10) {
-      overlay.removeChild(rect);
+      overlay.innerHTML = "";
       rect = null;
         loadComments(0, 9999);
     }
