@@ -6,6 +6,40 @@
 <title>Duality</title>
 
 <style>
+  /* Top bar container */
+  .top-bar {
+    width: 100%;
+    height: 60px; /* adjust height as needed */
+    background-color: #333; /* dark background */
+    display: flex;
+    align-items: center;
+    padding: 0 20px; /* horizontal padding */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    position: fixed; /* stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+
+  /* Logo image */
+  .top-bar img {
+    height: 40px; /* logo height */
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .top-bar img:hover {
+    transform: scale(1.1); /* subtle hover effect */
+  }
+
+  /* Optional: content next to logo */
+  .top-bar .title {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 15px;
+  }
+
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f4f4f9;
@@ -101,7 +135,16 @@
 </style>
 </head>
 <body>
-  <h2>Available Articles</h2>
+  <div class="top-bar">
+    <!-- Clickable logo -->
+    <a href="https://10tothe6.github.io/duality">
+      <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Home Logo">
+    </a>
+    <!-- Optional: title -->
+    <!-- <div class="title">My Website</div> -->
+  </div>
+
+  <!-- <h2>Available Articles</h2> -->
   <div id="container">
     <div id="bob">
       <img width="400" src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Example Image">
