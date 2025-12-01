@@ -6,128 +6,192 @@
     <title>Article Page</title>
     <style>
   body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 20px;
-
-     user-select: none;          /* Standard */
-  -webkit-user-select: none;  /* Safari */
-  -moz-user-select: none;     /* Firefox */
-  -ms-user-select: none;      /* IE/Edge */
+    background: #f2f4f8;
+    color: #333;
+    line-height: 1.6;
+    user-select: none;
   }
 
   img {
-  pointer-events: auto;       /* keep images interactive if needed */
-  -webkit-user-drag: none;    /* Safari/Chrome */
-    user-drag: none;            /* Firefox/Edge */
-    }
-
-  /* Container to hold article and comments side by side */
-  .page-container {
-    display: flex;
-    gap: 30px; /* space between article and comments */
-    align-items: flex-start; /* align tops */
+    pointer-events: auto;
+    -webkit-user-drag: none;
+    user-drag: none;
   }
 
-  /* Article styling */
+  h1, h2 {
+    color: #222;
+    margin-bottom: 15px;
+  }
+
+  p {
+    margin-bottom: 16px;
+  }
+
+  .page-container {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
   .article-container {
-    flex-grow: 2; /* takes more space */
-    max-width: 700px;   /* make the article narrower */
-    margin: 0 auto;     /* center it horizontally */
-    padding: 20px;      /* optional: add spacing */
+    flex-grow: 2;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    transition: transform 0.3s;
+  }
+
+  .article-container:hover {
+    transform: translateY(-3px);
   }
 
   .article-header img {
     max-width: 100%;
-    /*border-radius: 15%; /* turns out making it round looks horrible */
     height: auto;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  /* Comments container styling */
   #comments-container {
     width: 350px;
-    flex-grow: 1; /* smaller width */
-    background-color: #f7f7f7;
+    flex-grow: 1;
+    background-color: #fff;
     padding: 20px;
-    border-radius: 10px;
-    /*max-width: 5000px; /* optional max width */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   }
 
   .comment {
-    width: 350px;
-    margin-bottom: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+    border-radius: 6px;
+    padding: 10px;
+  }
+
+  .comment:hover {
+    background-color: #f9f9f9;
   }
 
   .comment-author {
     font-weight: bold;
-    margin-bottom: 5px;
+    color: #0077cc;
+    margin-bottom: 4px;
   }
 
   .comment-text {
     font-size: 14px;
   }
 
-  /* The drawing overlay on top of everything */
   #drawing-overlay {
-    position: fixed; /* sit on top of all content */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* so you can still interact with underlying elements */
+    pointer-events: none;
   }
 
   .rectangle {
     position: absolute;
-    border: 2px solid red;
-    background-color: rgba(255, 0, 0, 0.2);
+    border: 2px solid #ff4d4f;
+    background-color: rgba(255, 77, 79, 0.2);
+    border-radius: 4px;
   }
 
   #version {
-  position: fixed;      /* stays in the same place even when scrolling */
-  bottom: 10px;         /* distance from bottom */
-  left: 10px;           /* distance from left */
-  font-size: 14px;      /* adjust as needed */
-  color: #555;          /* subtle color */
-  background: rgba(255, 255, 255, 0.7); /* optional semi-transparent bg */
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-family: sans-serif;
-  z-index: 1000;        /* above other content */
-}
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #555;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: sans-serif;
+    z-index: 1000;
+  }
+
+  /* Sources styling */
+  .sources-container {
+    margin-top: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sources-container ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .sources-container li {
+    background: #fff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .sources-container li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  .sources-container li::before {
+    content: "📌";
+    margin-right: 10px;
+    font-size: 16px;
+  }
 </style>
 </head>
 <body>
   <div id="version">duality v0.1.0</div>
+  <div id="drawing-overlay"></div>
 
-    <div id="drawing-overlay"></div>
-
-    <div class="page-container">
-        <div class="article-container">
-        <div class="article-header">
-            <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/rosetta.png?raw=true" alt="Article Header Image">
-        </div>
-            <div class="article-content">
-                <h1>Landing On A Comet</h1>
-                <p>In 2014, the probe that ESA launched in 2004 - Rosetta - with the Philae lander that it carried, made contact with a comet out in deep space. </p>
-
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pretium est nunc, vel facilisis tellus tincidunt in. Donec viverra elementum dui, non tincidunt libero. Duis interdum vulputate tortor nec hendrerit. Etiam id lacus id lorem pulvinar convallis. Suspendisse bibendum est eros, vitae rutrum odio suscipit fringilla. Aliquam sit amet laoreet arcu, vel commodo risus. Curabitur posuere sapien ut nibh ultricies, quis placerat elit pulvinar. Phasellus vel nisi eget mauris condimentum placerat. Aliquam scelerisque quis neque a ultricies. Suspendisse sit amet nisl sit amet augue consectetur faucibus eget non nisi. Nulla augue elit, congue ut elit sit amet, cursus condimentum sem.
-                    
-Nulla nec dapibus erat. Curabitur lacinia, nunc at vehicula dictum, purus dui gravida metus, sed iaculis eros sem vel diam. Duis nec fermentum augue. Pellentesque a ligula eu purus bibendum consequat ut non orci. Ut ac orci sit amet nunc congue tincidunt. Pellentesque porta bibendum ex id venenatis. In sit amet volutpat mi, vitae tincidunt orci. In sed volutpat massa. Sed turpis magna, venenatis ultricies velit vitae, congue consectetur ex.
-                      
-Pellentesque at dictum odio. Cras quis accumsan elit, commodo facilisis ex. Phasellus convallis cursus tempor. Quisque et faucibus sapien. Pellentesque sodales est id tempus vulputate. Integer molestie lacus nisi, quis ornare velit dignissim a. Ut tincidunt risus vitae quam egestas, eleifend molestie mauris convallis. Nam ligula mauris, varius eu nibh congue, blandit luctus sem. Duis odio nisl, condimentum in ornare eget, ultricies ac metus. Sed at luctus lacus. Vivamus consequat quis tellus nec tincidunt. Integer mattis id quam ac semper. Proin et venenatis tortor, non condimentum nibh. In ac diam molestie sem posuere aliquam vel nec purus.
-                </p>
-            </div>
-        </div>
-
-        <div>
-            <h1>Comments</h1>
-            <div id="comments-container"></div>
-        </div>
+  <div class="page-container">
+    <div class="article-container">
+      <div class="article-header">
+        <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/rosetta.png?raw=true" alt="Article Header Image">
+      </div>
+      <div class="article-content">
+        <h1>Landing On A Comet</h1>
+        <p>In 2014, the probe that ESA launched in 2004 - Rosetta - with the Philae lander that it carried, made contact with a comet out in deep space.</p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla pretium est nunc, vel facilisis tellus tincidunt in. Donec viverra elementum dui, non tincidunt libero. Duis interdum vulputate tortor nec hendrerit...
+        </p>
+      </div>
     </div>
+
+    <div>
+      <h1>Comments</h1>
+      <div id="comments-container"></div>
+    </div>
+  </div>
+
+  <div class="sources-container">
+    <h2>Sources</h2>
+    <ul>
+      <li>Astronomy Today</li>
+      <li>ESA Official Reports</li>
+      <li>Scientific Journals</li>
+      <li>Space News Portal</li>
+    </ul>
+  </div>
 
   <!-- Firebase SDKs -->
   <script type="module">
@@ -333,16 +397,5 @@ let docID = 1;
 
   loadComments(0, 9999);
   </script>
-
-    <div>
-      <h1>Sources</h1>
-      <ul>
-        <li>A</li>
-        <li>B</li>
-        <li>C</li>
-        <li>D</li>
-      </ul>
-    </div>
-
 </body>
 </html
