@@ -81,30 +81,34 @@
     opacity: 1;
   }
 
-  .bob {
-      width: 100px;
-      height: 100px;
-      background-color: #3498db;
-      margin: 50px auto;
-      border-radius: 10px;
-      animation: bobUpDown 2s ease-in-out infinite;
-    }
-
-    @keyframes bobUpDown {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-20px); } /* move up */
-      100% { transform: translateY(0); }
-    }
-
 </style>
   <link rel="icon" href="/img/favicon.ico">
 </head>
 
 
 <body>
- <div class="bob">
+ <div id="bob">
   <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Example Image">
  </div>
+
+ <script>
+  const bob = document.getElementById('bob');
+  let pos = 0;
+  let direction = 1; // 1 = up, -1 = down
+  const speed = 0.5; // pixels per frame
+
+  function animate() {
+    pos += direction * speed;
+    if (pos > 20) direction = -1;  // reverse down
+    if (pos < 0) direction = 1;    // reverse up
+    bob.style.transform = `translateY(${-pos}px)`;
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+  <h2 href="https://10tothe6.github.io/duality/about" style="color: blue; text-decoration: none;"> About</h2>
 
   <h2>Available Articles</h2>
   <div id="imageList">Loading…</div>
