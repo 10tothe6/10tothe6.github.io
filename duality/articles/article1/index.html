@@ -306,6 +306,26 @@
   const auth = getAuth(app);
   const user = auth.currentUser;
 
+  const lButton = document.getElementById("login-button");
+  const sButton = document.getElementById("signup-button");
+  const loButton = document.getElementById("logout-button");
+
+  const statusText = document.getElementById("status");
+
+  if (user) {
+        statusText.textContent = "Logged in as: " + user.email;
+        loButton.style.display = "block";
+
+        sButton.style.display = "none";
+        lButton.style.display = "none";
+      } else {
+        statusText.textContent = "Not logged in";
+        loButton.style.display = "none";
+
+        sButton.style.display = "block";
+        lButton.style.display = "block";
+      }
+
     // Reference the comments collection
     const commentsContainer = document.getElementById("comments-container");
 
