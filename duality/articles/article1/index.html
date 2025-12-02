@@ -466,8 +466,8 @@ let docID = 1;
   window.addEventListener("mousemove", (e) => {
     if (!isDrawing || !rect) return;
 
-    const currentX = e.clientX;
-    const currentY = e.clientY;
+    const currentX = e.clientX + window.scrollY;
+    const currentY = e.clientY + window.scrollY;
 
     const width = Math.abs(currentX - startX);
     const height = Math.abs(currentY - startY);
