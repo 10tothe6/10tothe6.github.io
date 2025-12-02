@@ -386,7 +386,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
-  const user = auth.currentUser;
+  let user = auth.currentUser;
 
   const lButton = document.getElementById("login-button");
   const sButton = document.getElementById("signup-button");
@@ -472,6 +472,8 @@
     // 6. a state changes
     //
     onAuthStateChanged(auth, (user) => {
+      user = auth.currentUser;
+      
       if (user) {
         statusText.textContent = "Logged in as: " + user.email;
         loButton.style.display = "block";
