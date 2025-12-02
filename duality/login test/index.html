@@ -66,7 +66,7 @@ document.getElementById("signup-form").addEventListener("submit", (e) => {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
 
-  auth.createUserWithEmailAndPassword(email, password)
+  createUserWithEmailAndPassword(auth, email, password)
     .then((cred) => {
       console.log("User created:", cred.user.email);
     })
@@ -84,7 +84,7 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
 
-  auth.signInWithEmailAndPassword(email, password)
+  signInWithEmailAndPassword(auth, email, password)
     .then((cred) => {
       console.log("Logged in:", cred.user.email);
     })
@@ -103,7 +103,7 @@ logoutBtn.addEventListener("click", () => {
 //
 // 6. a state changes
 //
-auth.onAuthStateChanged((user) => {
+onAuthStateChanged(auth, (user) => {
   if (user) {
     statusText.textContent = "Logged in as: " + user.email;
     logoutBtn.style.display = "block";
