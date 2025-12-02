@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Firebase Auth Demo</title>
+</head>
+<body>
+  <h1>Firebase Login Example</h1>
+
+  <!-- SIGNUP -->
+  <h2>Sign Up</h2>
+  <form id="signup-form">
+    <input id="signup-email" type="email" placeholder="Email">
+    <input id="signup-password" type="password" placeholder="Password">
+    <button>Sign Up</button>
+  </form>
+
+  <!-- LOGIN -->
+  <h2>Log In</h2>
+  <form id="login-form">
+    <input id="login-email" type="email" placeholder="Email">
+    <input id="login-password" type="password" placeholder="Password">
+    <button>Log In</button>
+  </form>
+
+  <button id="logout-btn" style="display:none">Log Out</button>
+
+  <h3 id="status">Not logged in</h3>
+
+  <!-- Firebase Imports -->
+  <script src="https://www.gstatic.com/firebasejs/10.15.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.15.0/firebase-auth.js"></script>
+
+  <!-- Your Script -->
+  <script src="auth.js"></script>
+</body>
+</html>
