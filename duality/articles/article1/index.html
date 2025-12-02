@@ -257,6 +257,13 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
   
   // TODO: Add SDKs for Firebase products that you want to use
   // https://firebase.google.com/docs/web/setup#available-libraries
@@ -276,6 +283,8 @@
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
+  const user = auth.currentUser;
 
     // Reference the comments collection
     const commentsContainer = document.getElementById("comments-container");
@@ -366,12 +375,23 @@ let docID = 1;
   let img = null;
   let isDrawing = false;
 
+  function getEmailPrefix(email) {
+  if (typeof email !== "string") return null;
+
+  const atIndex = email.indexOf("@");
+  if (atIndex === -1) return null; // no @ found → invalid email
+
+  return email.slice(0, atIndex);
+}
+
   // Handle saving the comment
   saveBtn.addEventListener("click", () => {
       const text = commentInput.value.trim();
       if (text.length === 0) return;
 
-      addComment("TEST AUTHOR", text, rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY)
+      if (user) {
+        addComment(getEmailPrefix(user.email), text, rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
+      }
 
       commentBox.style.display = "none";
   });

@@ -717,6 +717,8 @@
   const sButton = document.getElementById("signup-button");
   const loButton = document.getElementById("logout-button");
 
+  const statusText = document.getElementById("status");
+
   const user = auth.currentUser;
 
   if (user) {
@@ -749,7 +751,7 @@
     });
 
     // DOM
-    const statusText = document.getElementById("status");
+    
     //const logoutBtn = document.getElementById("logout-btn");
 
     // sign up
