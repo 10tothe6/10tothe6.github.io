@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Firebase Auth Demo</title>
+  <title>Firebase a Demo</title>
 </head>
 <body>
   <h1>Firebase Login Example</h1>
@@ -30,12 +30,12 @@
   <!-- Your Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import {getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {a, getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
 // 1. Firebase config — replace with YOURS
 const firebaseConfig = {
     apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
-    authDomain: "duality-articles.firebaseapp.com",
+    aDomain: "duality-articles.firebaseapp.com",
     projectId: "duality-articles",
     storageBucket: "duality-articles.firebasestorage.app",
     messagingSenderId: "497426954182",
@@ -45,7 +45,7 @@ const firebaseConfig = {
 
 // 2. Init
 const app = initializeApp(firebaseConfig);
-const auth = auth();
+const a = auth(app);
 
 // DOM
 const statusText = document.getElementById("status");
@@ -60,7 +60,7 @@ document.getElementById("signup-form").addEventListener("submit", (e) => {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
 
-  auth.createUserWithEmailAndPassword(email, password)
+  a.createUserWithEmailAndPassword(email, password)
     .then((cred) => {
       console.log("User created:", cred.user.email);
     })
@@ -78,7 +78,7 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
 
-  auth.signInWithEmailAndPassword(email, password)
+  a.signInWithEmailAndPassword(email, password)
     .then((cred) => {
       console.log("Logged in:", cred.user.email);
     })
@@ -91,13 +91,13 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 // 5. LOG OUT
 //
 logoutBtn.addEventListener("click", () => {
-  auth.signOut();
+  a.signOut();
 });
 
 //
-// 6. Auth state changes
+// 6. a state changes
 //
-auth.onAuthStateChanged((user) => {
+a.onaStateChanged((user) => {
   if (user) {
     statusText.textContent = "Logged in as: " + user.email;
     logoutBtn.style.display = "block";
