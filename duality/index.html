@@ -517,6 +517,9 @@
       <img id="carousel-image" width="550" src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Example Image">
    </div>
 
+   <img id="bob2" width="250" src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/logo_1.png?raw=true" alt="Example Image">
+      <img d="bob3" width="250" src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/logo_1.png?raw=true" alt="Example Image">
+
    <script>
     // List of images
     const images = [
@@ -542,7 +545,7 @@
     }
 
     // Change image every 3 seconds
-    setInterval(showNextImage, 3000);
+    setInterval(showNextImage, 1000);
 </script>
 
   <!-- <h2>Available Articles</h2> -->
@@ -552,6 +555,8 @@
 
   <script>
     const bob = document.getElementById('bob');
+    const bob2 = document.getElementById('bob2');
+    const bob3 = document.getElementById('bob3');
     let pos = 0;
     let direction = 1; // 1 = up, -1 = down
     const speed = 0.1; // pixels per frame
@@ -561,6 +566,8 @@
       if (pos > 20) direction = -1;
       if (pos < 0) direction = 1;
       bob.style.transform = `translate(-50%, calc(-50% - ${pos}px))`;
+      bob2.style.transform = `translate(-50%, calc(-50% - ${pos + 0.3}px))`;
+      bob3.style.transform = `translate(-50%, calc(-50% - ${pos - 0.45}px))`;
       requestAnimationFrame(animate);
     }
 
