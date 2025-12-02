@@ -44,8 +44,8 @@ const firebaseConfig = {
   };
 
 // 2. Init
-const app = firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+const app = initializeApp(firebaseConfig);
+const auth = auth();
 
 // DOM
 const statusText = document.getElementById("status");
