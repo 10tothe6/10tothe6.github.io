@@ -1,4 +1,4 @@
-
+/* run git ls-files | xargs wc -l to count file lines */
 body {
 	background-color: #222222;
 }
