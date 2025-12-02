@@ -160,18 +160,6 @@
     const canvas = document.getElementById('stage');
     const ctx = canvas.getContext('2d', { alpha: true });
 
-    // UI elements
-    const ui = {
-      count: document.getElementById('count'),
-      size: document.getElementById('size'),
-      speed: document.getElementById('speed'),
-      color: document.getElementById('color'),
-      linkRange: document.getElementById('linkRange'),
-      mode: document.getElementById('mode'),
-      randomize: document.getElementById('randomize'),
-      reset: document.getElementById('reset'),
-    };
-
     // device pixel ratio for crisp rendering
     let DPR = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -185,12 +173,12 @@
 
     // parameters (derived from UI)
     const params = {
-      count: parseInt(ui.count.value,10),
-      size: parseFloat(ui.size.value),
-      speed: parseFloat(ui.speed.value),
-      color: ui.color.value,
-      linkRange: parseInt(ui.linkRange.value,10),
-      mode: ui.mode.value,
+      count: 100,
+      size: 50,
+      speed: 2,
+      color: rgba(1, 1, 1, 0.5),
+      linkRange: 10,
+      mode: "Repel",
     };
 
     // helpers
