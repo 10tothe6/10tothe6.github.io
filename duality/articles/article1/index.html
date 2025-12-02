@@ -614,7 +614,7 @@ let docID = 1;
 
     if (cursorStyle !== "pointer") {
         isDrawing = true;
-        startX = e.clientX + window.scrollY;
+        startX = e.clientX + window.scrollX;
         startY = e.clientY + window.scrollY;
 
         // Remove existing rectangle if there is one
@@ -653,7 +653,7 @@ let docID = 1;
   window.addEventListener("mousemove", (e) => {
     if (!isDrawing || !rect) return;
 
-    const currentX = e.clientX + window.scrollY;
+    const currentX = e.clientX + window.scrollX;
     const currentY = e.clientY + window.scrollY;
 
     const width = Math.abs(currentX - startX);
