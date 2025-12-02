@@ -1,0 +1,63 @@
+<script type="module">
+  // Firebase v10+ modular SDK
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.15.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.15.0/firebase-auth.js";
+
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    appId: "YOUR_APP_ID"
+  };
+
+  // Initialize
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // --- SIGN UP ---
+  window.signup = function () {
+    const email = document.getElementById("signup-email").value;
+    const password = document.getElementById("signup-password").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        alert("Account created: " + cred.user.email);
+      })
+      .catch((err) => alert(err.message));
+  };
+
+  // --- LOGIN ---
+  window.login = function () {
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((cred) => {
+        alert("Logged in: " + cred.user.email);
+      })
+      .catch((err) => alert(err.message));
+  };
+
+  // --- LOGOUT ---
+  window.logout = function () {
+    signOut(auth);
+  };
+
+  // --- AUTH STATE ---
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("status").innerText = "Logged in as: " + user.email;
+      document.getElementById("logout-btn").style.display = "block";
+    } else {
+      document.getElementById("status").innerText = "Not logged in";
+      document.getElementById("logout-btn").style.display = "none";
+    }
+  });
+</script>
