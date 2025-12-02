@@ -596,6 +596,7 @@ let docID = 1;
       const text = commentInput.value.trim();
       if (text.length === 0) return;
 
+      user = auth.currentUser;
       if (user) {
         addComment(getEmailPrefix(user.email), text, rect.offsetTop + window.scrollY, rect.offsetTop + rect.offsetHeight + window.scrollY);
       }
