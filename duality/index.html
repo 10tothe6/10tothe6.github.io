@@ -592,6 +592,7 @@
   <h3 id="status">Not logged in</h3>
   <button id = 'login-button'>Log In</button>
   <button id = 'signup-button'>Sign Up</button>
+  <button id = 'logout-button'>Sign Up</button>
   </div>
 
   <div id="bob">
@@ -714,6 +715,7 @@
 
   const lButton = document.getElementById("login-button");
   const sButton = document.getElementById("signup-button");
+  const loButton = document.getElementById("logout-button");
 
     const overlay = document.getElementById('modalOverlay');
     const form = document.getElementById('signInForm');
@@ -770,12 +772,12 @@
       }
     });
 
-    // //
-    // // 5. LOG OUT
-    // //
-    // logoutBtn.addEventListener("click", () => {
-    //   auth.signOut();
-    // });
+    //
+    // 5. LOG OUT
+    //
+    loButton.addEventListener("click", () => {
+      auth.signOut();
+    });
 
     //
     // 6. a state changes
@@ -783,10 +785,16 @@
     onAuthStateChanged(auth, (user) => {
       if (user) {
         statusText.textContent = "Logged in as: " + user.email;
-        //logoutBtn.style.display = "block";
+        loButton.style.display = "block";
+
+        sButton.style.display = "none";
+        lButton.style.display = "none";
       } else {
         statusText.textContent = "Not logged in";
-        //logoutBtn.style.display = "none";
+        logoutBtn.style.display = "none";
+
+        sButton.style.display = "block";
+        lButton.style.display = "block";
       }
     });
 
