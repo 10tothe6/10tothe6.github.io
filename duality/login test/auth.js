@@ -1,10 +1,16 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+  import { auth, getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+
 // 1. Firebase config — replace with YOURS
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  appId: "YOUR_APP_ID"
-};
+    apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
+    authDomain: "duality-articles.firebaseapp.com",
+    projectId: "duality-articles",
+    storageBucket: "duality-articles.firebasestorage.app",
+    messagingSenderId: "497426954182",
+    appId: "1:497426954182:web:8081f58e64d32048c3a4c7",
+    measurementId: "G-TJ5TXZEQH5"
+  };
 
 // 2. Init
 const app = firebase.initializeApp(firebaseConfig);
