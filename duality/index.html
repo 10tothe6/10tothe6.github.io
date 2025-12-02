@@ -723,11 +723,13 @@
   lButton.addEventListener('click', () => {
         overlay.classList.add('active');
         loginType = 0;
+        alert(loginType);
     });
 
     sButton.addEventListener('click', () => {
         overlay.classList.add('active');
         loginType = 1;
+        alert(loginType);
     });
 
     // DOM
@@ -753,22 +755,22 @@
     });
 
     // sign in
-    form.addEventListener("submit", (e) => {
-      if (loginType == 0) {
-        e.preventDefault();
+    // form.addEventListener("submit", (e) => {
+    //   if (loginType == 0) {
+    //     e.preventDefault();
 
-      const email = form.username.value;
-      const password = form.password.value;
+    //   const email = form.username.value;
+    //   const password = form.password.value;
 
-      signInWithEmailAndPassword(auth, email, password)
-        .then((cred) => {
-          alert("login success");
-        })
-        .catch((err) => {
-          alert(err.message);
-        });
-      }
-    });
+    //   signInWithEmailAndPassword(auth, email, password)
+    //     .then((cred) => {
+    //       alert("login success");
+    //     })
+    //     .catch((err) => {
+    //       alert(err.message);
+    //     });
+    //   }
+    // });
 
     // //
     // // 5. LOG OUT
