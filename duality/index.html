@@ -173,8 +173,8 @@
 
     // parameters (derived from UI)
     const params = {
-      count: 100,
-      size: 50,
+      count: 50,
+      size: 5,
       speed: 2,
       color: "rgb(1, 1, 1)",
       linkRange: 10,
@@ -420,7 +420,7 @@
 
     // keep particle list sensible
     function capParticles(){
-      const max = Math.max(20, parseInt(ui.count.max));
+      const max = Math.max(20, parseInt(50));
       const desired = parseInt(ui.count.value,10);
       if (particles.length > desired){
         particles.splice(0, particles.length - desired);
