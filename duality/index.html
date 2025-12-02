@@ -42,7 +42,7 @@
 
   body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f4f9;
+    
     margin: 0;
     height: 100vh;
     display: flex;
@@ -50,6 +50,13 @@
     align-items: center;
     overflow: hidden;
     position: relative;
+
+    background: radial-gradient(1200px 800px at 10% 20%, rgba(30,40,60,0.28), transparent),
+                  radial-gradient(900px 600px at 90% 80%, rgba(90,60,140,0.08), transparent),
+                  var(--bg);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
 
   h2 {
@@ -94,6 +101,14 @@
   flex: unset;
 }
 
+/* full-bleed canvas */
+    #stage {
+      display:block;
+      width:100%;
+      height:100vh;
+      touch-action:none;
+    }
+
   #imageList button:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
@@ -136,6 +151,393 @@
 </style>
 </head>
 <body>
+
+  <canvas id="stage"></canvas>
+
+  <script>
+  // Molecule Particle System (single-file, vanilla JS)
+  (function(){
+    const canvas = document.getElementById('stage');
+    const ctx = canvas.getContext('2d', { alpha: true });
+
+    // UI elements
+    const ui = {
+      count: document.getElementById('count'),
+      size: document.getElementById('size'),
+      speed: document.getElementById('speed'),
+      color: document.getElementById('color'),
+      linkRange: document.getElementById('linkRange'),
+      mode: document.getElementById('mode'),
+      randomize: document.getElementById('randomize'),
+      reset: document.getElementById('reset'),
+    };
+
+    // device pixel ratio for crisp rendering
+    let DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    // state
+    let w = 0, h = 0;
+    let particles = [];
+    let running = true;
+
+    // mouse / touch
+    const pointer = { x: null, y: null, down: false };
+
+    // parameters (derived from UI)
+    const params = {
+      count: parseInt(ui.count.value,10),
+      size: parseFloat(ui.size.value),
+      speed: parseFloat(ui.speed.value),
+      color: ui.color.value,
+      linkRange: parseInt(ui.linkRange.value,10),
+      mode: ui.mode.value,
+    };
+
+    // helpers
+    function rand(mn, mx){ return Math.random() * (mx - mn) + mn; }
+    function map(v, a, b, c, d){ return c + (v - a) * (d - c) / (b - a); }
+
+    // resize canvas
+    function resize(){
+      DPR = Math.min(window.devicePixelRatio || 1, 2);
+      w = Math.max(300, Math.floor(window.innerWidth));
+      h = Math.max(300, Math.floor(window.innerHeight));
+      canvas.width = Math.floor(w * DPR);
+      canvas.height = Math.floor(h * DPR);
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    }
+
+    // particle class
+    class Particle {
+      constructor(x, y){
+        this.x = x ?? rand(0, w);
+        this.y = y ?? rand(0, h);
+        const s = params.size;
+        this.r = rand(s * 0.6, s * 1.4);
+        this.vx = rand(-0.5, 0.5);
+        this.vy = rand(-0.5, 0.5);
+        this.mass = this.r * 0.4;
+        this.hueShift = rand(-30, 30);
+        this.age = 0;
+      }
+      step(dt){
+        // simple Brownian / velocity
+        const speed = 0.3 + params.speed * 0.9;
+        this.vx += rand(-0.08, 0.08) * speed * 0.5;
+        this.vy += rand(-0.08, 0.08) * speed * 0.5;
+
+        // clamp velocity
+        const vlim = 2.4 + params.speed * 4.0;
+        this.vx = Math.max(-vlim, Math.min(vlim, this.vx));
+        this.vy = Math.max(-vlim, Math.min(vlim, this.vy));
+
+        // apply pointer interactions
+        if (pointer.x !== null && pointer.y !== null) {
+          const dx = pointer.x - this.x;
+          const dy = pointer.y - this.y;
+          const d2 = dx*dx + dy*dy;
+          const d = Math.sqrt(d2) + 0.0001;
+
+          // only influence within a radius
+          const influenceRadius = Math.max(80, params.linkRange * 0.8);
+          if (d < influenceRadius) {
+            const fall = 1 - (d / influenceRadius);
+            const force = (params.mode === 'repel' ? -1 : 1) * fall * 0.6 * params.speed;
+            this.vx += (dx / d) * force;
+            this.vy += (dy / d) * force;
+
+            // slight pull when pointer is down (spawn cluster 'stickiness')
+            if (pointer.down) {
+              this.vx *= 0.98;
+              this.vy *= 0.98;
+            }
+          }
+        }
+
+        // friction / drag
+        this.vx *= 0.995;
+        this.vy *= 0.995;
+
+        // integrate
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+
+        // wrap edges gently
+        if (this.x < -20) this.x = w + 20;
+        if (this.x > w + 20) this.x = -20;
+        if (this.y < -20) this.y = h + 20;
+        if (this.y > h + 20) this.y = -20;
+
+        this.age += dt;
+      }
+      draw(ctx){
+        const baseColor = params.color;
+        // particle glow
+        ctx.beginPath();
+        ctx.fillStyle = hexToRGBA(baseColor, 0.12);
+        ctx.arc(this.x, this.y, this.r * 6.0, 0, Math.PI*2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.fillStyle = hexToRGBA(baseColor, 0.22);
+        ctx.arc(this.x, this.y, this.r * 3.0, 0, Math.PI*2);
+        ctx.fill();
+
+        // core
+        ctx.beginPath();
+        ctx.fillStyle = hexToRGBA(baseColor, 1.0);
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
+
+    // color helpers
+    function hexToRGBA(hex, alpha=1){
+      // support formats: #RRGGBB or #RGB
+      if (!hex) return `rgba(110,231,183,${alpha})`;
+      const h = hex.replace('#','');
+      let r,g,b;
+      if (h.length === 3){
+        r = parseInt(h[0]+h[0],16);
+        g = parseInt(h[1]+h[1],16);
+        b = parseInt(h[2]+h[2],16);
+      } else {
+        r = parseInt(h.slice(0,2),16);
+        g = parseInt(h.slice(2,4),16);
+        b = parseInt(h.slice(4,6),16);
+      }
+      return `rgba(${r},${g},${b},${alpha})`;
+    }
+
+    // build particle array
+    function buildParticles(n){
+      particles.length = 0;
+      for (let i=0;i<n;i++){
+        particles.push(new Particle());
+      }
+    }
+
+    // draw bonds (lines) between nearby particles
+    function drawLinks(ctx){
+      const linkMax = params.linkRange;
+      const len = particles.length;
+      for (let i=0;i<len;i++){
+        const A = particles[i];
+        for (let j=i+1;j<len;j++){
+          const B = particles[j];
+          const dx = A.x - B.x;
+          const dy = A.y - B.y;
+          const d2 = dx*dx + dy*dy;
+          if (d2 > linkMax * linkMax) continue;
+          const d = Math.sqrt(d2);
+          const t = 1 - (d / linkMax);
+          // bonding force (mild)
+          const bond = t * 0.0008 * params.speed;
+          A.vx += (dx / d) * bond * -1;
+          A.vy += (dy / d) * bond * -1;
+          B.vx += (dx / d) * bond;
+          B.vy += (dy / d) * bond;
+
+          // draw line
+          ctx.beginPath();
+          ctx.moveTo(A.x, A.y);
+          ctx.lineTo(B.x, B.y);
+          ctx.lineWidth = Math.max(0.3, t * 1.6);
+          ctx.strokeStyle = hexToRGBA(params.color, Math.max(0.05, t * 0.45));
+          ctx.stroke();
+        }
+      }
+    }
+
+    // animation loop
+    let last = performance.now();
+    function loop(t){
+      if (!running) {
+        last = t;
+        requestAnimationFrame(loop);
+        return;
+      }
+      const dtRaw = (t - last) / (1000/60); // normalize to 60fps base
+      const dt = Math.min(3, dtRaw); // clamp big deltas
+      last = t;
+
+      // clear with small alpha to make subtle trails
+      ctx.clearRect(0,0,w,h);
+      ctx.globalCompositeOperation = 'lighter';
+
+      // subtle vignette background
+      ctx.fillStyle = 'rgba(6,8,16,0.16)';
+      ctx.fillRect(0,0,w,h);
+
+      // links
+      ctx.save();
+      ctx.globalCompositeOperation = 'screen';
+      drawLinks(ctx);
+      ctx.restore();
+
+      // particles
+      for (let i=0;i<particles.length;i++){
+        particles[i].step(dt);
+      }
+      for (let i=0;i<particles.length;i++){
+        particles[i].draw(ctx);
+      }
+
+      // pointer indicator
+      if (pointer.x !== null && pointer.y !== null){
+        ctx.beginPath();
+        ctx.arc(pointer.x, pointer.y, 8, 0, Math.PI*2);
+        ctx.fillStyle = hexToRGBA(params.color, 0.08);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    // events
+    function onPointerMove(e){
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX || (e.touches && e.touches[0].clientX) || 0) - rect.left;
+      const y = (e.clientY || (e.touches && e.touches[0].clientY) || 0) - rect.top;
+      pointer.x = x;
+      pointer.y = y;
+    }
+    function onPointerDown(e){
+      pointer.down = true;
+      onPointerMove(e);
+      spawnCluster(pointer.x, pointer.y, 6);
+    }
+    function onPointerUp(){
+      pointer.down = false;
+    }
+    function onLeave(){
+      // don't null out on leave on mobile; keep for desktop
+      pointer.x = null;
+      pointer.y = null;
+    }
+
+    // spawn a small cluster of particles at x,y
+    function spawnCluster(x,y, n=8){
+      for (let i=0;i<n;i++){
+        const p = new Particle(x + rand(-16,16), y + rand(-16,16));
+        p.vx += rand(-1.6,1.6);
+        p.vy += rand(-1.6,1.6);
+        particles.push(p);
+      }
+      // clamp to max preferred
+      capParticles();
+    }
+
+    // keep particle list sensible
+    function capParticles(){
+      const max = Math.max(20, parseInt(ui.count.max));
+      const desired = parseInt(ui.count.value,10);
+      if (particles.length > desired){
+        particles.splice(0, particles.length - desired);
+      }
+    }
+
+    // wire UI controls
+    ui.count.addEventListener('input', (e) => {
+      params.count = parseInt(e.target.value,10);
+      // grow or shrink to target
+      const target = params.count;
+      if (particles.length < target){
+        const add = target - particles.length;
+        for (let i=0;i<add;i++) particles.push(new Particle());
+      } else if (particles.length > target){
+        particles.splice(0, particles.length - target);
+      }
+    });
+    ui.size.addEventListener('input', (e) => {
+      params.size = parseFloat(e.target.value);
+      // apply to particles (new sizes will appear slowly)
+      for (let p of particles) p.r = rand(params.size * 0.6, params.size * 1.4);
+    });
+    ui.speed.addEventListener('input', (e) => { params.speed = parseFloat(e.target.value); });
+    ui.color.addEventListener('input', (e) => { params.color = e.target.value; });
+    ui.linkRange.addEventListener('input', (e) => { params.linkRange = parseInt(e.target.value,10); });
+    ui.mode.addEventListener('change', (e) => { params.mode = e.target.value; });
+
+    ui.randomize.addEventListener('click', () => {
+      // random palette & small shuffle
+      const palette = ['#6ee7b7','#8bd3ff','#ffd27e','#ff90c1','#cdb4ff','#9ce3ff'];
+      params.color = palette[Math.floor(rand(0, palette.length))];
+      ui.color.value = params.color;
+      // random speed
+      params.speed = parseFloat(map(Math.random(),0,1,0.08,1.4).toFixed(2));
+      ui.speed.value = params.speed;
+      // random count
+      const c = Math.floor(rand(40, 320));
+      ui.count.value = c; ui.count.dispatchEvent(new Event('input'));
+    });
+
+    ui.reset.addEventListener('click', () => {
+      // restore defaults
+      ui.count.value = 120; ui.count.dispatchEvent(new Event('input'));
+      ui.size.value = 2.2; ui.size.dispatchEvent(new Event('input'));
+      ui.speed.value = 0.58; ui.speed.dispatchEvent(new Event('input'));
+      ui.linkRange.value = 110; ui.linkRange.dispatchEvent(new Event('input'));
+      ui.color.value = '#6ee7b7'; ui.color.dispatchEvent(new Event('input'));
+      ui.mode.value = 'none'; ui.mode.dispatchEvent(new Event('change'));
+    });
+
+    // keyboard: space to pause
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        running = !running;
+      }
+      // quick shortcuts
+      if (e.key === 'r') ui.randomize.click();
+      if (e.key === 'c') ui.color.focus();
+    });
+
+    // pointer events
+    canvas.addEventListener('mousemove', onPointerMove);
+    canvas.addEventListener('touchmove', onPointerMove, { passive:true });
+    canvas.addEventListener('mousedown', onPointerDown);
+    canvas.addEventListener('touchstart', onPointerDown, { passive:true });
+    window.addEventListener('mouseup', onPointerUp);
+    window.addEventListener('touchend', onPointerUp);
+    canvas.addEventListener('mouseleave', onLeave);
+
+    // handle visibility change to stop ticks
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) running = false;
+      else running = true;
+    });
+
+    // initialization
+    function init(){
+      resize();
+      buildParticles(params.count);
+      last = performance.now();
+      requestAnimationFrame(loop);
+    }
+
+    // listen for resize
+    window.addEventListener('resize', () => {
+      resize();
+    });
+
+    // small performance guard: if many particles, reduce glow draws
+    // but keep visual style.
+
+    // expose some debug for console
+    window.__molecule = {
+      particles,
+      params,
+      spawn: spawnCluster,
+    };
+
+    // start
+    init();
+
+  })();
+  </script>
 
   <div class="top-bar">
     <!-- Clickable logo -->
