@@ -615,8 +615,8 @@ let docID = 1;
 
     if (cursorStyle !== "pointer") {
         isDrawing = true;
-        startX = e.clientX;
-        startY = e.clientY;
+        startX = e.clientX + window.scrollY;
+        startY = e.clientY + window.scrollY;
 
         // Remove existing rectangle if there is one
         if (rect) {
