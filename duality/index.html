@@ -717,6 +717,22 @@
   const sButton = document.getElementById("signup-button");
   const loButton = document.getElementById("logout-button");
 
+  const user = auth.currentUser;
+
+  if (user) {
+        statusText.textContent = "Logged in as: " + user.email;
+        loButton.style.display = "block";
+
+        sButton.style.display = "none";
+        lButton.style.display = "none";
+      } else {
+        statusText.textContent = "Not logged in";
+        loButton.style.display = "none";
+
+        sButton.style.display = "block";
+        lButton.style.display = "block";
+      }
+
     const overlay = document.getElementById('modalOverlay');
     const form = document.getElementById('signInForm');
 
