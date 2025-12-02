@@ -103,7 +103,7 @@ logoutBtn.addEventListener("click", () => {
 //
 // 6. a state changes
 //
-auth.onaStateChanged((user) => {
+auth.onAuthStateChanged((user) => {
   if (user) {
     statusText.textContent = "Logged in as: " + user.email;
     logoutBtn.style.display = "block";
