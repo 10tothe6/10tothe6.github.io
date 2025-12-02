@@ -342,7 +342,7 @@
   <!-- Modal overlay -->
   <div class="overlay" id="modalOverlay">
       <div class="modal">
-          <!-- <span class="close-btn" id="closeModalBtn">&times;</span> -->
+          <span class="close-btn" id="close-popup">&times;</span>
           <!-- <h2>Sign In</h2> -->
           <!-- Form starts here -->
           <form id="signInForm" method="POST">
@@ -408,8 +408,13 @@
 
     const formOverlay = document.getElementById('modalOverlay');
     const form = document.getElementById('signInForm');
+    const cButton = document.getElementById('close-popup');
 
     let loginType = 0;
+
+    cButton.addEventListener('click', () => {
+        overlay.classList.remove('active');
+    });
 
   lButton.addEventListener('click', () => {
         overlay.classList.add('active');
