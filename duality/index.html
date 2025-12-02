@@ -421,7 +421,7 @@
     // keep particle list sensible
     function capParticles(){
       const max = Math.max(20, parseInt(50));
-      const desired = parseInt(ui.count.value,10);
+      const desired = 50;
       if (particles.length > desired){
         particles.splice(0, particles.length - desired);
       }
