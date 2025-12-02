@@ -29,8 +29,14 @@
 
   <!-- Your Script -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { auth } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.15.0/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.15.0/firebase-auth.js";
 
 // 1. Firebase config — replace with YOURS
 const firebaseConfig = {
@@ -45,7 +51,7 @@ const firebaseConfig = {
 
 // 2. Init
 const app = initializeApp(firebaseConfig);
-const a = auth(app); 
+  const auth = getAuth(app);
 
 // DOM
 const statusText = document.getElementById("status");
@@ -60,7 +66,7 @@ document.getElementById("signup-form").addEventListener("submit", (e) => {
   const email = document.getElementById("signup-email").value;
   const password = document.getElementById("signup-password").value;
 
-  a.createUserWithEmailAndPassword(email, password)
+  auth.createUserWithEmailAndPassword(email, password)
     .then((cred) => {
       console.log("User created:", cred.user.email);
     })
@@ -78,7 +84,7 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
   const email = document.getElementById("login-email").value;
   const password = document.getElementById("login-password").value;
 
-  a.signInWithEmailAndPassword(email, password)
+  auth.signInWithEmailAndPassword(email, password)
     .then((cred) => {
       console.log("Logged in:", cred.user.email);
     })
@@ -91,13 +97,13 @@ document.getElementById("login-form").addEventListener("submit", (e) => {
 // 5. LOG OUT
 //
 logoutBtn.addEventListener("click", () => {
-  a.signOut();
+  auth.signOut();
 });
 
 //
 // 6. a state changes
 //
-a.onaStateChanged((user) => {
+auth.onaStateChanged((user) => {
   if (user) {
     statusText.textContent = "Logged in as: " + user.email;
     logoutBtn.style.display = "block";
