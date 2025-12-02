@@ -518,10 +518,10 @@
     <input id="signup-email" type="email" placeholder="Email">
     <input id="signup-password" type="password" placeholder="Password">
     <button>Sign Up</button>
-  </form>
+  </form> -->
 
   <!-- LOGIN -->
-  <form id="login-form">
+  <!-- <form id="login-form">
     <input id="login-email" type="email" placeholder="Email">
     <input id="login-password" type="password" placeholder="Password">
     <button>Log In</button>
@@ -530,8 +530,8 @@
   <button id="logout-btn" style="display:none">Log Out</button>
 
   <h3 id="status">Not logged in</h3>
-  <button>Log In</button>
-  <button>Sign Up</button>
+  <button id = 'login-button'>Log In</button>
+  <button id = 'signup-button'>Sign Up</button>
   </div>
 
   <div id="bob">
@@ -634,6 +634,17 @@
     const imageListDiv = document.getElementById("imageList");
 
   const auth = getAuth(app);
+
+  const lButton = document.getElementById("login-button");
+  const sButton = document.getElementById("signup-button");
+
+  lButton.addEventListener('click', () => {
+        alert("login");
+    });
+
+    sButton.addEventListener('click', () => {
+        alert("signup");
+    });
 
     // // DOM
     // const statusText = document.getElementById("status");
