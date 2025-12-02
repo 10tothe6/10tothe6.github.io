@@ -135,11 +135,33 @@
 </style>
 </head>
 <body>
+
   <div class="top-bar">
     <!-- Clickable logo -->
     <a href="https://10tothe6.github.io/duality">
       <img src="https://github.com/10tothe6/10tothe6.github.io/blob/main/img/duality_logo.png?raw=true" alt="Home Logo">
     </a>
+    <h1>Firebase Login Example</h1>
+
+  <!-- SIGNUP -->
+  <h2>Sign Up</h2>
+  <form id="signup-form">
+    <input id="signup-email" type="email" placeholder="Email">
+    <input id="signup-password" type="password" placeholder="Password">
+    <button>Sign Up</button>
+  </form>
+
+  <!-- LOGIN -->
+  <h2>Log In</h2>
+  <form id="login-form">
+    <input id="login-email" type="email" placeholder="Email">
+    <input id="login-password" type="password" placeholder="Password">
+    <button>Log In</button>
+  </form>
+
+  <button id="logout-btn" style="display:none">Log Out</button>
+
+  <h3 id="status">Not logged in</h3>
     <!-- Optional: title -->
     <!-- <div class="title">My Website</div> -->
   </div>
@@ -172,6 +194,13 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+    import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyArv-BB3H5pIZFZBANfFYFG1bBNxO0veeA",
@@ -186,6 +215,68 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const imageListDiv = document.getElementById("imageList");
+
+  const auth = getAuth(app);
+
+// DOM
+const statusText = document.getElementById("status");
+const logoutBtn = document.getElementById("logout-btn");
+
+//
+// 3. SIGN UP
+//
+document.getElementById("signup-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log("User created:", cred.user.email);
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+});
+
+//
+// 4. LOG IN
+//
+document.getElementById("login-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
+
+  signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log("Logged in:", cred.user.email);
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+});
+
+//
+// 5. LOG OUT
+//
+logoutBtn.addEventListener("click", () => {
+  auth.signOut();
+});
+
+//
+// 6. a state changes
+//
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    statusText.textContent = "Logged in as: " + user.email;
+    logoutBtn.style.display = "block";
+  } else {
+    statusText.textContent = "Not logged in";
+    logoutBtn.style.display = "none";
+  }
+});
 
     async function loadImages() {
       try {
