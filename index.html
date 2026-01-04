@@ -298,8 +298,9 @@
 <section id="about">
   <h2>About Me</h2>
   <p style="max-width:700px;color:var(--muted)">
-    I’m a developer who enjoys building clean, user-friendly websites and
-    applications with a focus on performance and design.
+    I'm a video game developer by trade, but I mess around with a whole bunch of things. 
+    If I were you I would stop reading this section (because it's boring) and go look at the 'Projects' section, where all my work is.
+    If you're still reading for some reason, try holding the ALT key and watch the logos in the 'Skills' section.
   </p>
 </section>
 
@@ -336,6 +337,31 @@
 <footer>
   © 2026 Maximilian McDiarmid
 </footer>
+
+<script>
+  const skillsScroll = document.querySelector('.skills-scroll');
+
+  // Default animation speed
+  let normalSpeed = '5s';
+  let fastSpeed = '2s'; // Speed when ALT is held
+
+  document.addEventListener('keydown', (e) => {
+    if (e.altKey) {
+      skillsScroll.style.animationDuration = fastSpeed;
+    }
+  });
+
+  document.addEventListener('keyup', (e) => {
+    if (!e.altKey) {
+      skillsScroll.style.animationDuration = normalSpeed;
+    }
+  });
+
+  // Also reset if user releases ALT while focus is elsewhere
+  window.addEventListener('blur', () => {
+    skillsScroll.style.animationDuration = normalSpeed;
+  });
+</script>
 
 </body>
 </html>
