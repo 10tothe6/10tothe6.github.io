@@ -21,7 +21,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: system-ui, sans-serif;
     }
 
     body {
@@ -36,7 +36,7 @@
     }
 
     header {
-      padding: 4rem 1rem;
+      padding: 4rem 1rem 2rem;
       text-align: center;
     }
 
@@ -59,7 +59,7 @@
     }
 
     section {
-      max-width: 1000px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 4rem 1rem;
     }
@@ -71,10 +71,52 @@
       padding-left: 0.75rem;
     }
 
-    .about p {
-      max-width: 700px;
+    /* ---------- SKILLS SCROLLER ---------- */
+
+    .skills-scroll {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .skills-scroll::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .skills-scroll::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+
+    .skill-card {
+      min-width: 140px;
+      background: var(--card);
+      border-radius: 1rem;
+      padding: 1.25rem;
+      text-align: center;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .skill-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 0.75rem;
+    }
+
+    .skill-card span {
+      font-size: 0.9rem;
       color: var(--muted);
     }
+
+    /* ---------- PROJECTS ---------- */
 
     .projects {
       display: grid;
@@ -103,103 +145,102 @@
       font-size: 0.95rem;
     }
 
-    .skills ul {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      list-style: none;
-    }
-
-    .skills li {
-      background: var(--card);
-      padding: 0.5rem 0.75rem;
-      border-radius: 0.5rem;
-      font-size: 0.9rem;
-    }
-
     footer {
       text-align: center;
       padding: 2rem 1rem;
       color: var(--muted);
       font-size: 0.9rem;
     }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 2rem;
-      }
-    }
   </style>
 </head>
+
 <body>
 
-  <header>
-    <h1>Your Name</h1>
-    <p>Web Developer • Designer • Creator</p>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
+<header>
+  <h1>Your Name</h1>
+  <p>Web Developer • Designer • Creator</p>
+  <nav>
+    <a href="#skills">Skills</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
 
-  <section id="about" class="about">
-    <h2>About Me</h2>
-    <p>
-      I’m a developer who enjoys building clean, user-friendly websites and
-      applications. I focus on writing readable code and creating great user
-      experiences.
-    </p>
-  </section>
+<!-- SKILLS AT TOP -->
+<section id="skills">
+  <h2>Skills</h2>
 
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects">
-      <div class="card">
-        <h3>Project One</h3>
-        <p>A brief description of what this project does and the tools used.</p>
-        <p><a href="#">View Project →</a></p>
-      </div>
-
-      <div class="card">
-        <h3>Project Two</h3>
-        <p>A brief description of what this project does and the tools used.</p>
-        <p><a href="#">View Project →</a></p>
-      </div>
-
-      <div class="card">
-        <h3>Project Three</h3>
-        <p>A brief description of what this project does and the tools used.</p>
-        <p><a href="#">View Project →</a></p>
-      </div>
+  <div class="skills-scroll">
+    <div class="skill-card">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+      <span>HTML</span>
     </div>
-  </section>
 
-  <section id="skills" class="skills">
-    <h2>Skills</h2>
-    <ul>
-      <li>HTML</li>
-      <li>CSS</li>
-      <li>JavaScript</li>
-      <li>React</li>
-      <li>Node.js</li>
-      <li>Git</li>
-    </ul>
-  </section>
+    <div class="skill-card">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+      <span>CSS</span>
+    </div>
 
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>
-      Email: <a href="mailto:youremail@example.com">youremail@example.com</a><br />
-      GitHub: <a href="#">github.com/yourname</a><br />
-      LinkedIn: <a href="#">linkedin.com/in/yourname</a>
-    </p>
-  </section>
+    <div class="skill-card">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+      <span>JavaScript</span>
+    </div>
 
-  <footer>
-    © 2026 Your Name. All rights reserved.
-  </footer>
+    <div class="skill-card">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+      <span>React</span>
+    </div>
+
+    <div class="skill-card">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node">
+      <span>Node.js</span>
+    </div>
+
+    <div class="skill-card">
+      <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+      <span>Git</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p style="max-width:700px;color:var(--muted)">
+    I’m a developer who enjoys building clean, user-friendly websites and
+    applications with a focus on performance and design.
+  </p>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="projects">
+    <div class="card">
+      <h3>Project One</h3>
+      <p>Description of your project.</p>
+      <p><a href="#">View Project →</a></p>
+    </div>
+
+    <div class="card">
+      <h3>Project Two</h3>
+      <p>Description of your project.</p>
+      <p><a href="#">View Project →</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>
+    Email: <a href="mailto:youremail@example.com">youremail@example.com</a><br>
+    GitHub: <a href="#">github.com/yourname</a><br>
+    LinkedIn: <a href="#">linkedin.com/in/yourname</a>
+  </p>
+</section>
+
+<footer>
+  © 2026 Your Name
+</footer>
 
 </body>
 </html>
