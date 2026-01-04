@@ -1,19 +1,205 @@
+</body>
+</html>
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<link rel="icon" href="/img/profile_favicon.ico">
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/img/profile_favicon.ico">
+  <title>Your Name | Portfolio</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --accent: #38bdf8;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    header {
+      padding: 4rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    header p {
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    nav {
+      margin-top: 1.5rem;
+    }
+
+    nav a {
+      margin: 0 1rem;
+      font-weight: 500;
+    }
+
+    section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 1rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--accent);
+      padding-left: 0.75rem;
+    }
+
+    .about p {
+      max-width: 700px;
+      color: var(--muted);
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .skills ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      list-style: none;
+    }
+
+    .skills li {
+      background: var(--card);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<p> 
-    <img src="logo_1.png" alt="Logo 1"style="width:256px;height:256px;">
-</p>
+  <header>
+    <h1>Your Name</h1>
+    <p>Web Developer • Designer • Creator</p>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
 
-<h1> Hello! I'm Maximilian, also known as FakeVoxel. </h1>
-<p> This site is under construction! </p>
+  <section id="about" class="about">
+    <h2>About Me</h2>
+    <p>
+      I’m a developer who enjoys building clean, user-friendly websites and
+      applications. I focus on writing readable code and creating great user
+      experiences.
+    </p>
+  </section>
 
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+      <div class="card">
+        <h3>Project One</h3>
+        <p>A brief description of what this project does and the tools used.</p>
+        <p><a href="#">View Project →</a></p>
+      </div>
+
+      <div class="card">
+        <h3>Project Two</h3>
+        <p>A brief description of what this project does and the tools used.</p>
+        <p><a href="#">View Project →</a></p>
+      </div>
+
+      <div class="card">
+        <h3>Project Three</h3>
+        <p>A brief description of what this project does and the tools used.</p>
+        <p><a href="#">View Project →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+      <li>React</li>
+      <li>Node.js</li>
+      <li>Git</li>
+    </ul>
+  </section>
+
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>
+      Email: <a href="mailto:youremail@example.com">youremail@example.com</a><br />
+      GitHub: <a href="#">github.com/yourname</a><br />
+      LinkedIn: <a href="#">linkedin.com/in/yourname</a>
+    </p>
+  </section>
+
+  <footer>
+    © 2026 Your Name. All rights reserved.
+  </footer>
 
 </body>
 </html>
